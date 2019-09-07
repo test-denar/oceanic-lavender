@@ -1,0 +1,22 @@
+{
+    "palette": "green",
+    "palettes": {
+        "green": {
+            "sass": {
+                "accent1": "#51CCA8",
+                "accent2": "#51B9CC",
+                "accent3": "#5E92CC",
+                "accent4": "#6E81D0"
+            }
+        },
+        "purple": {
+            "sass": {
+                "accent1": "#946cc1",
+                "accent2": "#6e9ff0",
+                "accent3": "#5eb6df",
+                "accent4": "#67cfc9"
+            }
+        }
+    },
+    "title": "Cascade"
+}

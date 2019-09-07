@@ -1,0 +1,15 @@
+social_links:
+  - link_text: '1234 Fictional Street #5432 Nashville, TN 00000-0000'
+    icon: fa-map-marker
+    link_url: '#'
+  - link_text: (000) 000-0000
+    icon: fa-phone
+    link_url: '#'
+  - link_text: info@Cascade.tld
+    icon: fa-envelope
+    link_url: '#'
+copyright: '&copy; Cascade. All rights reserved.'
+links:
+  - text: Made with Stackbit
+    url: 'https://www.stackbit.com'
+    new_window: true

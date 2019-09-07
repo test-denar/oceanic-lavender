@@ -1,0 +1,7 @@
+actions:
+  - title: Sign Up
+    url: generic.md
+    is_primary: true
+  - title: Log In
+    url: generic.md
+    is_primary: false

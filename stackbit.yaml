@@ -1,0 +1,559 @@
+stackbitVersion: ~0.2.34
+ssgName: gatsby
+ssgVersion: 0.1.12
+buildCommand: ./ssg-build.sh
+publishDir: public
+staticDir: static
+uploadDir: images
+dataDir: src/data
+pagesDir: src/pages
+pageLayoutKey: template
+metadata:
+  title: Cascade
+  description: a multipage theme with posts and a carousel
+  author: Pixelarity
+  authorURL: 'https://pixelarity.com'
+  palettes:
+    green:
+      images:
+        small: images/demo-green-256x192.png
+        large: images/demo-green-1024x768.png
+    purple:
+      images:
+        small: images/demo-purple-256x192.png
+        large: images/demo-purple-1024x768.png
+stackbit_banner:
+  show_banner: false
+  name: Cascade
+  create_url: 'https://app.stackbit.com/create?theme=cascade'
+  github_url: 'https://github.com/stackbithq/stackbit-theme-cascade'
+models:
+  config:
+    type: config
+    label: Config
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: Site title
+        required: true
+      - name: palette
+        type: enum
+        label: Palette
+        description: Theme palette
+        options:
+          - green
+          - purple
+      - type: object
+        name: palettes
+        label: Palettes
+        hidden: true
+        fields:
+          - type: palette
+            name: green
+            label: Green
+          - type: palette
+            name: purple
+            label: Purple
+  menu:
+    type: data
+    file: menu.yml
+    label: Menu Configuration
+    fields:
+      - name: actions
+        type: list
+        label: Action Buttons
+        description: List of action buttons shown under the menu items
+        items:
+          type: object
+          labelField: title
+          fields:
+            - type: string
+              name: title
+              label: Label
+            - type: string
+              name: url
+              label: URL
+              widget: url
+            - type: boolean
+              name: is_primary
+              label: Is Primary
+              description: Should the button have primary theme color
+              default: false
+  footer:
+    type: data
+    file: footer.yml
+    label: Footer Configuration
+    fields:
+      - name: social_links
+        type: list
+        label: Social Links
+        description: List of social links
+        items:
+          type: object
+          labelField: link_text
+          fields:
+            - type: string
+              name: link_text
+              label: Text
+            - type: string
+              name: icon
+              label: Icon
+              description: One of Font Awesome icons
+            - type: string
+              name: link_url
+              label: URL
+              widget: url
+      - name: copyright
+        type: string
+        label: Copyright
+      - type: list
+        name: links
+        label: Links
+        description: A list of links displayed in the footer.
+        items:
+          type: object
+          labelField: text
+          fields:
+            - type: string
+              name: text
+              label: Link text
+            - type: string
+              name: url
+              label: URL
+              widget: url
+            - type: boolean
+              name: new_window
+              label: Open in new window
+              default: true
+  home:
+    type: page
+    label: Home
+    hideContent: true
+    template: home
+    singleInstance: true
+    file: index.md
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Title
+      - name: banner
+        type: object
+        label: Banner
+        fields:
+          - name: title
+            type: text
+            label: Title
+            required: true
+          - name: subtitle
+            type: markdown
+            label: subtitle
+          - name: section_id
+            type: string
+            label: Section ID
+            required: true
+            default: banner
+          - name: actions
+            type: list
+            label: Action Buttons
+            items:
+              type: object
+              labelField: label
+              fields:
+                - name: label
+                  type: string
+                  label: Label
+                  required: true
+                - name: url
+                  type: string
+                  widget: url
+                  label: URL
+                  required: true
+                  default: '#'
+                - name: is_primary
+                  type: boolean
+                  label: Is Primary
+                  default: false
+                - name: is_scrolly
+                  type: boolean
+                  label: Is link to anchor
+                  description: >-
+                    Set to true if the action links to a section on the home
+                    page
+                  default: false
+      - name: sections
+        type: list
+        label: Sections
+        description: Home Sections
+        items:
+          type: reference
+          models:
+            - spotlight
+            - carousel
+            - posts
+            - cta
+      - type: page_menus
+        name: menus
+        label: Home Menus
+        description: Which menus should this page show up in
+  page:
+    type: page
+    label: Page
+    template: page
+    exclude: posts/**
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Title
+      - name: image
+        type: image
+        label: Image
+      - name: home_sections
+        type: object
+        label: Home Sections
+        description: Home sections to show this page in
+        fields:
+          - name: carousel
+            type: object
+            label: Carousel
+            fields:
+              - name: enabled
+                type: boolean
+                label: Enabled
+                description: Show this page inside carousel section on the home page
+                default: false
+              - name: title
+                type: string
+                label: Title
+              - name: text
+                type: markdown
+                label: Text
+              - name: weight
+                type: number
+                label: Weight
+              - name: image
+                type: image
+                label: Image
+              - name: data_position
+                type: enum
+                label: Image Position
+                default: center center
+                options:
+                  - top left
+                  - top center
+                  - top right
+                  - center left
+                  - center center
+                  - center right
+                  - bottom left
+                  - bottom center
+                  - bottom right
+              - name: button_background_color
+                type: enum
+                label: Button Background Color
+                default: accent1
+                options:
+                  - accent1
+                  - accent2
+                  - accent3
+                  - accent4
+          - name: spotlight
+            type: object
+            label: Spotlight
+            fields:
+              - name: enabled
+                type: boolean
+                label: Enabled
+                description: Show this page inside spotlight section on the home page
+                default: false
+              - name: section_id
+                type: string
+                label: Section ID
+                description: 'Section element ID, must be unique'
+              - name: title
+                type: text
+                label: Title
+              - name: subtitle
+                type: text
+                label: Subtitle
+              - name: text
+                type: markdown
+                label: Text
+              - name: weight
+                type: number
+                label: Weight
+              - name: image
+                type: image
+                label: Image
+              - name: data_position
+                type: enum
+                label: Image Position
+                default: center center
+                options:
+                  - top left
+                  - top center
+                  - top right
+                  - center left
+                  - center center
+                  - center right
+                  - bottom left
+                  - bottom center
+                  - bottom right
+              - name: background_accent
+                type: enum
+                label: Background Color
+                default: accent1
+                options:
+                  - accent1
+                  - accent2
+                  - accent3
+                  - accent4
+              - name: button_accent
+                type: enum
+                label: Button Background Color
+                default: accent1
+                options:
+                  - accent1
+                  - accent2
+                  - accent3
+                  - accent4
+      - type: page_menus
+        name: menus
+        label: Page Menus
+        description: Which menus should this page show up in
+  post:
+    type: page
+    label: Post
+    template: page
+    folder: posts
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Title
+      - name: image
+        type: image
+        label: Image
+      - name: excerpt
+        type: markdown
+        label: Excerpt
+        description: A short text that will be shown on the home page in posts list
+      - name: home_image
+        type: image
+        label: Home Image
+        description: An image that will be shown on the home page in posts list
+      - name: home_button_color
+        type: enum
+        options:
+          - accent1
+          - accent2
+          - accent3
+          - accent4
+        default: accent1
+        label: Home Button Color
+        description: >-
+          An accent color of the button shown on the home page in posts list
+          that links to this post
+      - name: date
+        type: date
+        label: Post Date
+        required: true
+      - type: page_menus
+        name: menus
+        label: Post Menus
+        description: Which menus should this page show up in
+  spotlight:
+    type: object
+    label: Spotlight
+    fields:
+      - name: component
+        type: string
+        label: Component
+        hidden: true
+        required: true
+        const: Spotlight
+  carousel:
+    type: object
+    label: Carousel
+    fields:
+      - name: title
+        type: string
+        label: Title
+      - name: background_color_style
+        type: enum
+        label: Background Color Style
+        default: style4
+        options:
+          - style1
+          - style2
+          - style3
+          - style4
+      - name: section_id
+        type: string
+        label: Section ID
+        unique: true
+        description: The section ID must be unique among all home sections
+      - name: component
+        type: string
+        label: Component
+        hidden: true
+        required: true
+        const: Carousel
+  posts:
+    type: object
+    label: Posts
+    fields:
+      - name: title
+        type: string
+        label: Title
+      - name: section_id
+        type: string
+        label: Section ID
+        unique: true
+        description: The section ID must be unique among all home sections
+      - name: component
+        type: string
+        label: Component
+        hidden: true
+        required: true
+        const: Posts
+  cta:
+    type: object
+    label: Call to Action
+    fields:
+      - name: title
+        type: string
+        label: Title
+      - name: subtitle
+        type: markdown
+        label: Subtitle
+      - name: style
+        type: enum
+        label: Color Style
+        default: style1
+        options:
+          - style1
+          - style2
+          - style3
+          - style4
+      - name: section_id
+        type: string
+        label: Section ID
+        unique: true
+        description: The section ID must be unique among all home sections
+      - name: component
+        type: string
+        label: Component
+        hidden: true
+        required: true
+        const: Cta
+  elements:
+    type: page
+    label: Elements
+    hideContent: true
+    template: elements
+    singleInstance: true
+    file: elements.md
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Title
+      - type: page_menus
+        name: menus
+        label: Elements Menus
+        description: Which menus should this page show up in
+  palette:
+    type: object
+    label: Palette
+    fields:
+      - type: object
+        name: sass
+        label: SASS
+        fields:
+          - type: color
+            name: accent1
+            label: Accent1
+          - type: color
+            name: accent2
+            label: Accent2
+          - type: color
+            name: accent3
+            label: Accent3
+          - type: color
+            name: accent4
+            label: Accent4
+  site_menus:
+    type: data
+    file: menus.json
+    label: Site Menus
+    labelField: null
+    description: >-
+      Site menus model, defines list of menus that can be specified from within
+      site configuration
+    fields:
+      - type: list
+        name: main
+        label: Main menu
+        description: List of items for Main menu
+        items:
+          type: site_menu_item
+  site_menu_item:
+    type: object
+    label: Site Menu Item
+    labelField: title
+    description: 'Site menu item model, defines fields for a single site menu item'
+    fields:
+      - type: string
+        name: identifier
+        label: Identifier
+        description: >-
+          The identifier of a menu item could be used as a parent menu of
+          another menu item
+        required: true
+      - type: string
+        name: title
+        label: Title
+        description: The title of the menu item
+        required: true
+      - type: string
+        name: url
+        label: URL
+        description: The URL the menu item links to
+        required: true
+      - type: number
+        name: weight
+        label: Weight
+        description: Position for sorting
+  page_menus:
+    type: object
+    label: Page Menus
+    labelField: null
+    description: 'Page menus model, defines menus that can be specified from within pages'
+    fields:
+      - type: page_menu_item
+        name: main
+        label: Main menu item
+        description: Main menu item for this page
+  page_menu_item:
+    type: object
+    label: Page Menu Item
+    labelField: title
+    description: 'Page menu item model, defines fields for a single page menu item'
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the menu item
+      - type: number
+        name: weight
+        label: Weight
+        description: Position for sorting
+      - type: string
+        name: identifier
+        label: Identifier
+        description: >-
+          The identifier of a menu item could be used as a parent menu of
+          another menu item
